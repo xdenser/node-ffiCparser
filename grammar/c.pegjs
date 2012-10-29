@@ -51,15 +51,15 @@ Declaration
     };
 
 DeclarationSpecifiers
-    = (( StorageClassSpecifier 
+    = (head:( StorageClassSpecifier 
        / TypeQualifier
        / FunctionSpecifier 
        )*
-       TypedefName
-       ( StorageClassSpecifier 
+       type: TypedefName
+       tail:( StorageClassSpecifier 
        / TypeQualifier 
        / FunctionSpecifier 
-       )*
+       )* { var a=head; a=a.concat(type); a=a.concat(tail); return a; }
       )    // {DeclarationSpecifiers}
     / ( StorageClassSpecifier 
       / TypeSpecifier 
@@ -69,11 +69,11 @@ DeclarationSpecifiers
     ;
 
 InitDeclaratorList
-    = InitDeclarator (COMMA InitDeclarator)* //{}
+    = head:InitDeclarator tail:(COMMA it:InitDeclarator { return it;} )* { return [head].concat(tail);}
     ;
 
 InitDeclarator
-    = Declarator (EQU Initializer)? //{}
+    = dec:Declarator init:(EQU init:Initializer {return init;})? { if(init) dec.initializer = init; return dec;}
     ;
 
 StorageClassSpecifier
@@ -136,10 +136,10 @@ StructDeclaration
     };
 
 SpecifierQualifierList
-    = ( TypeQualifier*
-        TypedefName
-        TypeQualifier*
-      )
+    = ( head:TypeQualifier*
+        type:TypedefName
+        tail:TypeQualifier*
+      ) { return head.concat(type,tail);}
     / ( TypeSpecifier
       / TypeQualifier
       )+
@@ -283,7 +283,7 @@ DirectAbstractDeclarator
     ;
 
 TypedefName
-    = Identifier //{&TypedefName}
+    = id:Identifier { return {type:'userTypesSpecifier', value: id};}
     ;
 
 Initializer

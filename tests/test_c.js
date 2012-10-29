@@ -1,5 +1,5 @@
 var
-  p = require('./c.js'),
+  p = require('../lib/c.js'),
   fs = require('fs'),
   source = fs.readFileSync('test.h'),
   res = p.parse(source.toString()),

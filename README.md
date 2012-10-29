@@ -23,7 +23,7 @@ It looks like direct use of C header files is not possible as that would require
 So module will rather use specially adapted header files made by copy/pasting needed declarations from real ones.
 
 ### Defines
-May be support of parsing #define directives will be needed as usefull constants usually defined in header files with that directive.
+Maybe support of parsing #define directives will be needed as usefull constants usually defined in header files with that directive.
 So use case of module will change like that:
 
 ``` js

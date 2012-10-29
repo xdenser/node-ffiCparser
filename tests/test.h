@@ -9,6 +9,11 @@ struct _iobuf {
         char *_tmpfname;
         };
 typedef struct _iobuf FILE;
-int* main(int);
-int* no_params();
+
 int params_2(int a, char* b);
+
+typedef struct AVFrac {
+    int64_t val, num, den;
+} AVFrac;
+
+
